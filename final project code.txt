@@ -1,3 +1,5 @@
+
+
 //put your bitmoji code up here or next to mine since they are giant code blocks
 
 
@@ -143,12 +145,31 @@ var btn3 = new Button({
     y: 228,
     label: "START",
     onClick: function() {
-        if(scene === 2){
+        if(scene === 1.5){
+        scene = 2;
+        }
+    }
+});
+var btn4 = new Button({
+    x: 179,
+    y: 228,
+    label: "START",
+    onClick: function() {
+        if(scene === 2.5){
         scene = 3;
         }
     }
 });
-
+var btn5 = new Button({
+    x: 179,
+    y: 228,
+    label: "RESTART",
+    onClick: function() {
+        if(scene === 3.5){
+        scene = 0;
+        }
+    }
+});
 
 
 //add any future created button in here, they wont work other wise and code will wig out
@@ -156,6 +177,8 @@ mouseClicked = function() {
     btn1.handleMouseClick();
     btn2.handleMouseClick();
     btn3.handleMouseClick();
+    btn4.handleMouseClick();
+    btn5.handleMouseClick();
 };
 //end of the button function stuff
 
@@ -172,7 +195,7 @@ btn1.draw();
 textSize(30);
 text("The Kestrel Run",76,24,244,100);
 textSize(15);
-text("Authors:Nick & Jordon",18,64,262,100);
+text("Authors:Nick & Jordan",18,64,262,100);
 };
 
 //post level 1 cutscene (work in progress needs proper graphics)
@@ -189,6 +212,18 @@ var Cut1 = function () {
    btn3.draw();
 };
 
+var Cut2 = function () {
+   background(135, 135, 135); 
+   drawNick(100,219,40);
+   stroke(0, 0, 0);
+   strokeWeight(4);
+   fill(255, 255, 255);
+   rect(84,95,164,111,6);
+   fill(0, 0, 0);
+   noStroke ();
+   text("good work commander but theres more on the way",100,100,160,200);
+   btn4.draw();
+};
 //
 //end of the static scenes
 //
@@ -269,7 +304,7 @@ var player = new Player(196, 301);
 
 
 //variable to change asteroid count for difficulty and level length
-var asteroidNumber = 50;
+var asteroidNumber = 5;
 
 
 //this assigns the asteroid(enemy) array its values, this makes the randomness for the draw function
@@ -279,10 +314,8 @@ for (var i = 0; i <= asteroidNumber; i++) {
 }
 
 
-
-
 //speed var for level 1
-var S1 = random(1,1);
+var S1 = random(5,5);
 //speed var for level 2
 var S2 = random(2,2);
 //speed var for level 3
@@ -293,7 +326,9 @@ var S3 = random(3,3);
 //trying to implement the game scene system, this shoould make the game run
 
 //gonna rename this as level one as we need two more of these bad boys
-var Level1 = function () {
+
+//JM 12-7-22 - generalized level function to reduce code complexity
+var Level = function (levelNumber) {
 
     
     // static
@@ -311,10 +346,14 @@ var Level1 = function () {
     for (var i = 0; i < Asteroids.length; i++) {
         Asteroids[i].draw();
         player.checkForStickGrab(Asteroids[i]);
-        Asteroids[i].x -= S1;
-        
+        //JM 12-7-22 - tying asteroid speed to the level playing 
+        Asteroids[i].x -= levelNumber +5;
+        // changed scene function increment to reduce scene reduncancy names
         if (Asteroids[(asteroidNumber - 1)].x <= -60) {
-            scene = 2;
+            scene += 0.5;
+            for (var i = 0; i < Asteroids.length; i++) {
+                Asteroids[i].x = random(500,800);
+            }
         }
         
         
@@ -331,7 +370,7 @@ var Level1 = function () {
     fill(255, 0, 0);
     text("Lives " + (9 + player.asteroids), 15, 15); 
     fill(31, 31, 31);
-    text("Level " + S1, 15, 35);
+    text("Level " + scene, 15, 35);
     
      //text("cross: " + cross, 20, 73);
      //diagnostic
@@ -363,18 +402,44 @@ draw = function() {
     
     
     //this is the first level of the game
-    if (scene === 1){
-      Level1();  
-    }
+    if (scene === 1)
+    {
+      Level(scene);  
+     }
+     if (scene === 1.5)
+     {
+      Cut1();  
+     }
+      if (scene === 2)
+      {
+          
+      Level(scene);
+      }
+      if (scene===2.5)
+      {
+          Cut2();
+      }
+      if (scene===3){
+          Level(scene);
+      }
+      if (scene===3.5)
+      {
+            background(64, 207, 255);
+            textSize(30);
+            text("Congragulations You Win!",86,90,278,111);
+            textSize(15);
+            btn5.draw();
+      }
+
+          
     //1st level beaten, cutscene before level 2 so its not whiplash going thru levels
-    if (scene === 2){
-      Cut1 (); 
-    }
+    //if (scene === 2){
+      //Level(scene);  
+      //Cut1 (); 
+    //}
     
     //level 2 babyyyy (gotta mke it still, this is just a test for now)
-    if (scene === 3){
-      rect(100,100,100,100,5); 
-    }
+    
     
      //gotta add level 2, cutsceene 2, level 3, and cutscene 3, also end credits
     
@@ -383,3 +448,5 @@ draw = function() {
     } 
   
 };
+
+
