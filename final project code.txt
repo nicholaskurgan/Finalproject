@@ -91,7 +91,7 @@ var Button = function(config) {
 };
 
 Button.prototype.draw = function() {
-    fill(0, 234, 255);
+    fill(171, 171, 171);
     rect(this.x, this.y, this.width, this.height, 5);
     fill(0, 0, 0);
     textSize(19);
@@ -116,8 +116,8 @@ var scene = 0;
 
 //this is the start game/unpause level 1 button, need to figure out pauses for levels 2 n 3, prob just gonna add a button to their cutscenes n call it a day
 var btn1 = new Button({
-    x: 179,
-    y: 228,
+    x: 116,
+    y: 303,
     label: "START",
     onClick: function() {
         if(scene === 0){
@@ -187,20 +187,53 @@ mouseClicked = function() {
 //gonna put all the stationary scenes like title n cutscenes in this section
 //
 
+// NK 12/16/2022 - making a star system for use in all static backgrounds
+var drawStars = function (x,y) {
+fill(249, 250, 203);
+ellipse (x,y,15,15);
+};
+var starX = [random(50,350)]; 
+var starY = [random(50,350)]; 
+    for (var z = 0 ; z <=30 ; z++) {
+        starX.push (random(20,380)); 
+        starY.push (random(20,380)); 
+    }
+// NK 12/16/2022 - use this to actually have the stars be drawn in scene   
+/*
+for (var z = 0 ; z <= 30 ; z++) {
+        drawStars(starX[z],starY[z],15,15);
+    }
+*/
+    
+
 //splash/title screen
 var Splash = function (){
-background(64, 207, 255);
+background(0, 0, 0);
+
+fill(247, 247, 247);
+
+    for (var z = 0 ; z <= 30 ; z++) {
+        drawStars(starX[z],starY[z],15,15);
+    }
+
 drawNick(100,219,40);
 btn1.draw();
+fill(250, 138, 68);
+ellipse(304,100,100,100);
+fill(255, 92, 92);
+ellipse(323,115,35,24);
+fill(150, 150, 150);
+ellipse(223,133,40,40);
 textSize(30);
+fill(255, 251, 0);
 text("The Kestrel Run",76,24,244,100);
 textSize(15);
-text("Authors:Nick & Jordan",18,64,262,100);
+text("Authors:Nick & Jordan",9,377,262,100);
 };
 
 //post level 1 cutscene (work in progress needs proper graphics)
 var Cut1 = function () {
-   background(135, 135, 135); 
+   background(135, 135, 135);
    drawNick(100,219,40);
    stroke(0, 0, 0);
    strokeWeight(4);
@@ -208,12 +241,12 @@ var Cut1 = function () {
    rect(84,95,164,111,6);
    fill(0, 0, 0);
    noStroke ();
-   text("good work commander but theres more on the way",100,100,160,200);
+   text("Good work commander but theres more on the way",100,100,160,200);
    btn3.draw();
 };
 
 var Cut2 = function () {
-   background(135, 135, 135); 
+   background(99, 99, 99); 
    drawNick(100,219,40);
    stroke(0, 0, 0);
    strokeWeight(4);
@@ -221,7 +254,7 @@ var Cut2 = function () {
    rect(84,95,164,111,6);
    fill(0, 0, 0);
    noStroke ();
-   text("good work commander but theres more on the way",100,100,160,200);
+   text("Your nearly out of it, just a little more",100,100,160,200);
    btn4.draw();
 };
 //
@@ -266,21 +299,6 @@ Player.prototype.checkForStickGrab = function(stick) {
     }
 };
 
-/*
-//crossing variable for point distribution
-var cross = 0;
-Player.prototype.checkForCross = function() {
-     
-       if (this.y <= 60 && cross === 0) {
-        cross = 1;
-        this.sticks = this.sticks + 2;
-    }
-    else if (this.y >= 340 && cross === 1) {
-        cross = 0;
-        this.sticks = this.sticks + 2;
-    }
-};
-*/
 
 //asteroid constructor
 var Asteroid = function(x, y) {
@@ -338,10 +356,18 @@ var Level = function (levelNumber) {
 
     
     // static
-    background(227, 254, 255);
-    fill(130, 79, 43);
+    background(0, 0, 0);
+    for (var z = 0 ; z <= 30 ; z++) {
+        drawStars(starX[z],starY[z],15,15);
+    }
+    fill(79, 217, 255);
+    ellipse(287,146,100,100);
+    fill(104, 107, 106);
     rectMode(CORNER);
-    rect(0, height*0.90, width, height*0.10);
+    fill(104, 107, 106);
+    rect(-28,-10,600,91);
+     drawNick(117,21,33);
+    
     btn2.draw();
    
    
@@ -431,7 +457,7 @@ draw = function() {
       }
       if (scene===3.5)
       {
-            background(64, 207, 255);
+            background(25, 180, 232);
             textSize(30);
             text("Congragulations You Win!",86,90,278,111);
             textSize(15);
