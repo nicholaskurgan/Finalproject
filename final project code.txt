@@ -237,7 +237,7 @@ var Player = function(x, y,nickHeight) {
 };
 
 Player.prototype.draw = function() {
-    this.y = constrain(this.y, 0, height-50);
+    this.y = constrain(this.y, 65, height-50); 
     this.x = 30;
     rectMode(CORNER);
     drawNick (this.x , this.y , this.nickHeight);
@@ -304,31 +304,37 @@ var player = new Player(196, 301);
 
 
 //variable to change asteroid count for difficulty and level length
-var asteroidNumber = 5;
-
+var asteroidNumber = 50;
+// NK 12/16/2022 - added a density option to change the spawn interval between each asteroid
+var asteroidDensity = 60;
 
 //this assigns the asteroid(enemy) array its values, this makes the randomness for the draw function
 var Asteroids = [];
 for (var i = 0; i <= asteroidNumber; i++) {  
-    Asteroids.push(new Asteroid(i * 40 + 300, random(20, 400)));
+    Asteroids.push(new Asteroid(i * asteroidDensity + 300, random(80, 400)));
+}
+// NK 12/16/2022 - making a second asteroid array for test purposes to troubleshoot density clumping error
+
+var Asteroids2 = [];
+for (var i = 0; i <= asteroidNumber; i++) {  
+    Asteroids2.push(new Asteroid(i * asteroidDensity + 300, random(80, 400)));
+}
+// NK 12/16/2022 - new array works, so for each level a new array is needed and must set array "Asteroids" equal tothat levels array so for level 3 set it equal to "Asteroids3"  
+var Asteroids3 = [];
+for (var i = 0; i <= asteroidNumber; i++) {  
+    Asteroids3.push(new Asteroid(i * asteroidDensity + 300, random(80, 400)));
 }
 
 
-//speed var for level 1
-var S1 = random(5,5);
-//speed var for level 2
-var S2 = random(2,2);
-//speed var for level 3
-var S3 = random(3,3);
-// this essentially acts as our difficulty meter
+var speedMultiplier = 2;
+// NK 12/16/2022 - this multiplies the levels speed, so it multiplies the assigned scene number to determine the enemy speed, so this is the speed scale for the whole game
 
 
-//trying to implement the game scene system, this shoould make the game run
 
-//gonna rename this as level one as we need two more of these bad boys
 
 //JM 12-7-22 - generalized level function to reduce code complexity
 var Level = function (levelNumber) {
+
 
     
     // static
@@ -347,7 +353,7 @@ var Level = function (levelNumber) {
         Asteroids[i].draw();
         player.checkForStickGrab(Asteroids[i]);
         //JM 12-7-22 - tying asteroid speed to the level playing 
-        Asteroids[i].x -= levelNumber +5;
+        Asteroids[i].x -= levelNumber + speedMultiplier;
         // changed scene function increment to reduce scene reduncancy names
         if (Asteroids[(asteroidNumber - 1)].x <= -60) {
             scene += 0.5;
@@ -390,9 +396,7 @@ var Level = function (levelNumber) {
 
 
 
-//this is the scene changer system based on the scene variable
 
-//im gonna use the end of each level to bump the scene, or the pause button which bumps to the title aka pause mode
 draw = function() {
     
     
@@ -401,25 +405,28 @@ draw = function() {
 //yeehaw
     
     
-    //this is the first level of the game
+    //NK 12/16/2022 - Scene changer, aka what makes the game run each scene when prompted by buttons
     if (scene === 1)
     {
       Level(scene);  
      }
-     if (scene === 1.5)
+     if (scene === 1.5 && player.asteroids > -9)
      {
-      Cut1();  
+      Cut1(); 
+      
      }
-      if (scene === 2)
+      if (scene === 2 && player.asteroids > -9)
       {
-          
+      Asteroids = Asteroids2;
       Level(scene);
       }
       if (scene===2.5)
       {
           Cut2();
       }
-      if (scene===3){
+      if (scene===3 && player.asteroids > -9){
+          
+          Asteroids = Asteroids3;
           Level(scene);
       }
       if (scene===3.5)
@@ -429,24 +436,14 @@ draw = function() {
             text("Congragulations You Win!",86,90,278,111);
             textSize(15);
             btn5.draw();
+            player.asteroids = 0;
       }
 
           
-    //1st level beaten, cutscene before level 2 so its not whiplash going thru levels
-    //if (scene === 2){
-      //Level(scene);  
-      //Cut1 (); 
-    //}
-    
-    //level 2 babyyyy (gotta mke it still, this is just a test for now)
-    
-    
-     //gotta add level 2, cutsceene 2, level 3, and cutscene 3, also end credits
+   
     
     else if (scene === 0) {
         Splash();
     } 
   
 };
-
-
