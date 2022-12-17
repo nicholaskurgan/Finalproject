@@ -1,5 +1,6 @@
 
 
+
 //put your bitmoji code up here or next to mine since they are giant code blocks
 
 
@@ -71,11 +72,188 @@ var drawBody =function (x,y,nickHeight){
     line(x+97*(nickHeight/100),y+91*(nickHeight/100),x+109*(nickHeight/100),y+79*(nickHeight     /100));//k line up
 
 };
+var head =function(x,y,s){
+    noStroke();
+    fill(255, 224, 189);
+    ellipse(x+105*s,y+119*s,s*92,s*100); //head 
+    arc(x+104*s,y+159*s,s*82,s*105,29,143);//neck
+};
+
+var hat=function(x,y,s)
+{
+    fill(41, 35, 35);
+    arc(x+107*s,y+91*s,s*80,s*53,-186,0);//top of hat
+    fill(41, 35, 35);
+    ellipse(x+126*s,y+90*s,119*s,11*s);//cap
+};
+var sunglasses= function(x,y,s)
+{
+    fill(10, 9, 9);
+    stroke(0,0,0);
+    ellipse(x+89*s,y+119*s,s*19,s*14);//glasses left
+    ellipse(x+117*s,y+119*s,s*19,s*14);//glasses right
+    line(x+82*s,y+119*s,x+121*s,y+116*s);//glasses nose bridge
+    line(x+59*s,y+123*s,x+92*s,y+118*s);//glasses side left
+    line(x+124*s,y+119*s,x+150*s,y+120*s);//glasses side right
+};
+
+var face = function(x,y,s)
+{
+    fill(255, 224, 189);
+    bezier(x+104*s,y+119*s,x+129*s,y+129*s,x+104*s,y+149*s,x+99*s,y+124*s);
+    //nose
+    fill(10, 9, 9);
+    arc(x+106*s,y+160*s,s*52,s*11,s*1,176);//beard
+    line(x+98*s,y+142*s,x+115*s,y+142*s);//mustache
+};
+var mouth=function(x,y,s)
+{
+    fill(255, 255, 255);//white for teeth
+    arc(x+107*s,y+147*s,s*22,s*-18,-181,1);//mouth
+    line(x+95*s,y+147*s,x+119*s,y+147*s);//top of mouth
+};
+
+var body=function(x,y,s)
+{ 
+    fill(58, 105, 199);
+    quad(x+185*s,y+242*s,x+36*s,y+242*s,x+78*s,y+185*s,x+142*s,y+184*s);//shirt
+    fill(255, 255, 255);
+    textSize(17);
+    text("JM",x+69*s,y+189*s);
+};
+
+
+var drawjordan=function(x,y,s)
+{
+    s=s/100;
+    head(x,y,s);
+    hat(x,y,s);
+    sunglasses(x,y,s);
+    mouth(x,y,s);
+    body(x,y,s);
+    face(x,y,s);
+    
+};
+
 
 var drawNick =function (x , y ,nickHeight) {
     drawBody(x,y,nickHeight);
     drawHead(x ,y,nickHeight);
 };
+//Space Ship
+var falconX = 46;
+var MillenniumFalcon = function(config) {
+    this.x = config.x || 150;
+    this.y = config.y || 150;
+    this.asteroids = 0;
+};
+MillenniumFalcon.prototype.collision=function(object){
+     if ((object.x >= this.x && object.x <= (this.x + 40)) &&
+        (object.y >= this.y && object.y <= (this.y + 90))) 
+        {
+        object.y = -400;
+        this.asteroids--;
+        }
+
+
+};
+MillenniumFalcon.prototype.draw = function() {
+    pushMatrix();
+    translate(this.x, this.y);
+    var fillColor = 255;
+    strokeWeight(1);
+    rectMode(CORNER);
+    fill(230, 230, 230);
+    stroke(0, 0, 0);
+    quad(falconX - 38, 40, falconX -92, 45, falconX - 100, 46, falconX - 94, 20);//left atenna
+    quad(falconX - 73, 65, falconX -39, 45,falconX - 100, 46, falconX - 94, 23);
+    rotate(89); //right attena
+    ellipse(falconX-8,13,2,2);
+    //dot on attena
+    ellipse(falconX+4,13,2,2);
+    //dot on attena
+   
+    fill(230, 230, 230);
+    stroke(168, 168, 168);
+    ellipse(falconX, 50, 62.5, 62.5);//main body
+    stroke(0, 0, 0);
+    rect(falconX - 6.25, 17.5, 12.5, 26.25);//freight loading room
+    
+    
+    ellipse(falconX - 15, 35, 5, 5);//satelite dish
+    
+    strokeWeight(1);
+    rectMode(CORNER);
+    stroke(0, 0, 0);
+    fill(186, 186, 186);
+   
+    fill(230, 230, 230);
+    stroke(0, 0, 0);
+    fill(0, 255, 255);
+    arc(falconX, 50, 70, 65, 30, 150);
+    fill(230, 230, 230);
+    arc(falconX, 50, 68.75, 62.25, 30, 150);//hyperdrive 
+    ellipse(falconX, 50, 12.5, 12.5);//center circle
+    fill(0, 0, 0);
+    ellipse(falconX, 48, 6.25, 6.25);//quad laser cannon area
+    stroke(240, 231, 240);
+    line(falconX, 51, falconX, 38.25);
+    line(falconX - 3.25, 48, falconX + 3.25, 48);
+    line(falconX - 2.25, 50.25, falconX + 2.5, 45.75);
+    line(falconX - 2.25, 45.25, falconX + 2.25, 50.25);
+    stroke(163, 163, 163);
+    fill(163, 163, 163);
+    rect(falconX - 1.25, 43.75, 2.5, 3.75);
+    stroke(0, 0, 0);
+    rect(falconX - 0.625, 41.25, 0.625, 5);
+    
+    noStroke();
+    fill(0, 0, 0);
+    quad(falconX + 25, 53.75, falconX + 36.25, 57.5, falconX + 36.25, 42.5, falconX + 25, 46.25);//space cut out from the side of the main body
+    quad(falconX - 23.75, 53.75, falconX - 35, 57.5, falconX - 35, 42.5, falconX - 23.75, 46.25);//space cut out from the side of the main body
+    stroke(0, 0, 0);
+    fill(0, 0, 0);
+    line(falconX - 30, 65.5, falconX - 5.5, 53.25);
+    line(falconX + 30, 65, falconX + 5.25, 53);
+    
+    fill(214, 211, 211);
+    rect(falconX + 26.25, 25, 8.75, 10);//cockpit
+    stroke(255, 255, 255);
+    fill(0, 68, 255);
+    quad(falconX + 35, 25.25, falconX + 32.5, 20, falconX + 28.75, 20, falconX + 26.25, 25.25);
+    fill(255, 255, 255);
+    line(falconX + 28.75, 20, falconX + 28.75, 23.75);
+    line(falconX + 32.5, 20, falconX + 32.25, 23.75);
+    quad(falconX + 35, 25, falconX + 33.75, 23.75, falconX + 27.5, 23.75, falconX + 26.25, 25);
+    stroke(0, 0, 0);
+    fill(214, 211, 211);
+    quad(falconX + 26.25, 31.25, falconX + 35.25, 35, falconX + 19.6, 43.25, falconX + 12.5, 38.5);//cockpit access corridor
+    quad(falconX + 25, 46.25, falconX + 25, 53.75, falconX + 31.25, 52.5, falconX + 31.25, 47.5);//starboard docking ring
+    quad(falconX - 23.75, 46.25, falconX - 23.75, 53.75, falconX - 31.25, 52.5, falconX - 31.25, 47.5);//port docking ring
+    rect(falconX + 10, 48.125, 15, 3.75);
+    fill(135, 135, 135);
+    triangle(falconX + 25, 46.25, falconX + 25, 48.25, falconX + 10.25, 48.75);
+    triangle(falconX + 25, 54.25, falconX + 10.25, 52, falconX + 25.25, 52);
+    fill(135, 135, 135);
+    triangle(falconX - 23.75, 46.25, falconX - 8.5, 48.5, falconX - 23.75, 48.75);
+    triangle(falconX - 23.75, 54.25, falconX - 8.5, 52, falconX - 23.75, 48.75);
+    fill(214, 211, 211);
+    rect(falconX - 24, 48.125, 15, 3.75);
+    line(falconX + 25, 53.75, falconX + 31.25, 56.25);
+    line(falconX + 25, 46.25, falconX + 31.25, 43.75);
+    stroke(186, 186, 186);
+    fill(0, 0, 0);
+    ellipse(falconX - 11.25, 66.25, 5, 5);
+    ellipse(falconX + 11.25, 66.25, 5, 5);
+    ellipse(falconX + 6.25, 58.75, 5, 5);
+    ellipse(falconX - 6.25, 58.75, 5, 5);
+    ellipse(falconX, 61.25, 5, 5);
+    ellipse(falconX, 68.75, 5, 5);
+    popMatrix();
+};
+
+
+
 
 
 
@@ -113,19 +291,21 @@ Button.prototype.handleMouseClick = function() {
 };
 
 var scene = 0;
-
+var gameOver = false;
 //this is the start game/unpause level 1 button, need to figure out pauses for levels 2 n 3, prob just gonna add a button to their cutscenes n call it a day
 var btn1 = new Button({
     x: 116,
     y: 303,
     label: "START",
     onClick: function() {
+        gameOver = false;
         if(scene === 0){
         scene = 1;
         }
     }
 });
 
+var MillenniumFalcon = new MillenniumFalcon({x:96,y:275});
 
 //this is the level pause button, its in the top right corner
 var btn2 = new Button({
@@ -135,6 +315,27 @@ var btn2 = new Button({
     onClick: function() {
        if(scene === 1){
         scene = 0;
+    }
+    }
+});
+var btn6 = new Button({
+    x: 275,
+    y: 0,
+    label: "PAUSE",
+    onClick: function() {
+       if(scene === 2){
+        scene = 1.5;
+    }
+    }
+});
+
+var btn7 = new Button({
+    x: 275,
+    y: 0,
+    label: "PAUSE",
+    onClick: function() {
+       if(scene === 3){
+        scene = 2.5;
     }
     }
 });
@@ -170,6 +371,18 @@ var btn5 = new Button({
         }
     }
 });
+var btn8 = new Button({
+    x: 179,
+    y: 228,
+    label: "RESTART",
+    onClick: function() {
+        if(scene === -1)
+        {
+        MillenniumFalcon.asteroids = 0;
+        scene = 0;
+        }
+    }
+});
 
 
 //add any future created button in here, they wont work other wise and code will wig out
@@ -179,6 +392,9 @@ mouseClicked = function() {
     btn3.handleMouseClick();
     btn4.handleMouseClick();
     btn5.handleMouseClick();
+    btn6.handleMouseClick();
+    btn7.handleMouseClick();
+    btn8.handleMouseClick();
 };
 //end of the button function stuff
 
@@ -215,8 +431,9 @@ fill(247, 247, 247);
     for (var z = 0 ; z <= 30 ; z++) {
         drawStars(starX[z],starY[z],15,15);
     }
-
+MillenniumFalcon.draw();
 drawNick(100,219,40);
+drawjordan(158,179,40);
 btn1.draw();
 fill(250, 138, 68);
 ellipse(304,100,100,100);
@@ -234,7 +451,7 @@ text("Authors:Nick & Jordan",9,377,262,100);
 //post level 1 cutscene (work in progress needs proper graphics)
 var Cut1 = function () {
    background(135, 135, 135);
-   drawNick(100,219,40);
+   MillenniumFalcon.draw();
    stroke(0, 0, 0);
    strokeWeight(4);
    fill(255, 255, 255);
@@ -247,11 +464,11 @@ var Cut1 = function () {
 
 var Cut2 = function () {
    background(99, 99, 99); 
-   drawNick(100,219,40);
+   //MillenniumFalcon(100,219,40);
    stroke(0, 0, 0);
    strokeWeight(4);
    fill(255, 255, 255);
-   rect(84,95,164,111,6);
+   rect(84,95,184,111,6);
    fill(0, 0, 0);
    noStroke ();
    text("Your nearly out of it, just a little more",100,100,160,200);
@@ -265,7 +482,7 @@ var Player = function(x, y,nickHeight) {
     this.x = x;
     this.y = y;
     this.nickHeight = nickHeight || 30;
-    this.img = getImage("creatures/Hopper-Happy");
+    //this.img = getImage("creatures/Hopper-Happy");
     this.asteroids = 0;
 };
 
@@ -273,20 +490,20 @@ Player.prototype.draw = function() {
     this.y = constrain(this.y, 65, height-50); 
     this.x = 30;
     rectMode(CORNER);
-    drawNick (this.x , this.y , this.nickHeight);
+    MillenniumFalcon (this.x , this.y , this.nickHeight);
    
     //image(this.img, this.x, this.y, 40, 40);
 };
 
 //this controls up for the player
 Player.prototype.hop = function() {
-    this.img = getImage("creatures/Hopper-Jumping");
+    //this.img = getImage("creatures/Hopper-Jumping");
     this.y -= 4;
 };
 
 //this controls down for the player
 Player.prototype.fall = function() {
-    this.img = getImage("creatures/Hopper-Happy");
+    //this.img = getImage("creatures/Hopper-Happy");
     this.y += 4;
 };
 
@@ -308,13 +525,16 @@ var Asteroid = function(x, y) {
 
 //asteroid drawing prototype
 Asteroid.prototype.draw = function() {
-    fill(89, 71, 0);
-    rectMode(CENTER);
-    rect(this.x, this.y, 50, 5);
-    fill(120, 120, 120);
-    ellipse(this.x - 15 , this.y + 5 , 10 , 10);
-    ellipse(this.x + 15 , this.y + 5 , 10 , 10);
-    rect(this.x , this.y - 13, 27 , 20 , 0);
+
+    fill(100, 92, 83);
+    ellipse(this.x,this.y,45,45);
+    fill(199, 120, 68);
+    stroke(10, 9, 9);
+    ellipse(this.x+8,this.y-13,14,15);
+    ellipse(this.x+11,this.y+10,14,13);
+    ellipse(this.x-10,this.y+4,15,15);
+    
+    
 };
 
 //making a player object with constructor
@@ -344,7 +564,7 @@ for (var i = 0; i <= asteroidNumber; i++) {
 }
 
 
-var speedMultiplier = 2;
+var speedMultiplier = 1.5;
 // NK 12/16/2022 - this multiplies the levels speed, so it multiplies the assigned scene number to determine the enemy speed, so this is the speed scale for the whole game
 
 
@@ -366,20 +586,18 @@ var Level = function (levelNumber) {
     rectMode(CORNER);
     fill(104, 107, 106);
     rect(-28,-10,600,91);
-     drawNick(117,21,33);
-    
     btn2.draw();
    
    
-   var gameOver = false;
+   
         //this tracks if the game should still allow movement, and is outside the loop
    
     //this controls asteroid speed and the life system
     for (var i = 0; i < Asteroids.length; i++) {
         Asteroids[i].draw();
-        player.checkForStickGrab(Asteroids[i]);
+        MillenniumFalcon.collision(Asteroids[i]);
         //JM 12-7-22 - tying asteroid speed to the level playing 
-        Asteroids[i].x -= levelNumber + speedMultiplier;
+        Asteroids[i].x -= levelNumber * speedMultiplier;
         // changed scene function increment to reduce scene reduncancy names
         if (Asteroids[(asteroidNumber - 1)].x <= -60) {
             scene += 0.5;
@@ -390,17 +608,19 @@ var Level = function (levelNumber) {
         
         
         //this ends the level if the player loses all health
-         if ( player.asteroids <= -9) {
+        //resets the game back to splash
+         if ( MillenniumFalcon.asteroids <= -9) {
         textSize(25);
         text("GAME OVER", 124, 124);
         gameOver = true;
+        scene = -1;
          }
     }
     
     textSize(23); // this displays the level and your health
-    rect(48,40,111,82,8);
+    rect(0,0,111,82,8);
     fill(255, 0, 0);
-    text("Lives " + (9 + player.asteroids), 15, 15); 
+    text("Lives " + (9 + MillenniumFalcon.asteroids), 15, 15); 
     fill(31, 31, 31);
     text("Level " + scene, 15, 35);
     
@@ -411,12 +631,27 @@ var Level = function (levelNumber) {
    
     
     //this controls movement 
-    if ( gameOver === false && keyIsPressed && key.code === 32 ) {
-        player.hop();
-    } else {
-        player.fall();
+    if ( gameOver === false && keyIsPressed && key.code === 32 ) 
+    {
+        if (MillenniumFalcon.y<69){//nice
+            MillenniumFalcon.y +=0;
+        }
+        else{
+            
+        MillenniumFalcon.y -= 4;
+        }
+    } 
+    else 
+    {
+        if (MillenniumFalcon.y>300)
+        {
+            MillenniumFalcon.y +=0;
+        }else 
+        {
+            MillenniumFalcon.y +=4;
+        }
     }
-    player.draw();
+    MillenniumFalcon.draw();
     
 };
 
@@ -436,12 +671,12 @@ draw = function() {
     {
       Level(scene);  
      }
-     if (scene === 1.5 && player.asteroids > -9)
+     if (scene === 1.5 && MillenniumFalcon.asteroids > -9)
      {
       Cut1(); 
       
      }
-      if (scene === 2 && player.asteroids > -9)
+      if (scene === 2 && MillenniumFalcon.asteroids > -9)
       {
       Asteroids = Asteroids2;
       Level(scene);
@@ -450,7 +685,7 @@ draw = function() {
       {
           Cut2();
       }
-      if (scene===3 && player.asteroids > -9){
+      if (scene===3 && MillenniumFalcon.asteroids > -9){
           
           Asteroids = Asteroids3;
           Level(scene);
@@ -462,12 +697,17 @@ draw = function() {
             text("Congragulations You Win!",86,90,278,111);
             textSize(15);
             btn5.draw();
-            player.asteroids = 0;
+            MillenniumFalcon.asteroids = 0;
       }
-
-          
-   
-    
+      if (scene===-1)
+      {
+            background(25, 180, 232);
+            textSize(30);
+            text("Congragulations You loose!",86,90,278,111);
+            textSize(15);
+            btn8.draw();
+            MillenniumFalcon.asteroids = 0;
+      }
     else if (scene === 0) {
         Splash();
     } 
