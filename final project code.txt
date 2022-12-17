@@ -602,7 +602,7 @@ var Level = function (levelNumber) {
         if (Asteroids[(asteroidNumber - 1)].x <= -60) {
             scene += 0.5;
             for (var i = 0; i < Asteroids.length; i++) {
-                Asteroids[i].x = random(500,800);
+                Asteroids[i].x = i * asteroidDensity + 300;
             }
         }
         
@@ -703,7 +703,7 @@ draw = function() {
       {
             background(25, 180, 232);
             textSize(30);
-            text("Congragulations You loose!",86,90,278,111);
+            text("Better Luck Next Time!",86,90,278,111);
             textSize(15);
             btn8.draw();
             MillenniumFalcon.asteroids = 0;
