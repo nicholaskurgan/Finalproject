@@ -1,9 +1,4 @@
-
-
-
-//put your bitmoji code up here or next to mine since they are giant code blocks
-
-
+ 
 var drawHead = function(x,y,nickHeight){
     noStroke();
     fill(232, 225, 144);//skin color
@@ -140,22 +135,24 @@ var drawNick =function (x , y ,nickHeight) {
     drawBody(x,y,nickHeight);
     drawHead(x ,y,nickHeight);
 };
-//Space Ship
+//Space Ship/player model
 var falconX = 46;
 var MillenniumFalcon = function(config) {
     this.x = config.x || 150;
     this.y = config.y || 150;
     this.asteroids = 0;
 };
+
+//this handles the player ship collision box
 MillenniumFalcon.prototype.collision=function(object){
-     if ((object.x >= this.x && object.x <= (this.x + 40)) &&
-        (object.y >= this.y && object.y <= (this.y + 90))) 
-        {
+     if ((object.x >= this.x - 100 && object.x <= (this.x + 16)) &&
+        (object.y >= this.y - 0 && object.y <= (this.y + 70))) 
+        { 
         object.y = -400;
         this.asteroids--;
         }
 
-
+//graphics for player ship
 };
 MillenniumFalcon.prototype.draw = function() {
     pushMatrix();
@@ -253,8 +250,8 @@ MillenniumFalcon.prototype.draw = function() {
 };
 
 
-
-
+//creates player ship
+var MillenniumFalcon = new MillenniumFalcon({x:96,y:275});
 
 
 
@@ -290,9 +287,10 @@ Button.prototype.handleMouseClick = function() {
     }
 };
 
-var scene = 0;
-var gameOver = false;
-//this is the start game/unpause level 1 button, need to figure out pauses for levels 2 n 3, prob just gonna add a button to their cutscenes n call it a day
+var scene = 0;//this is setup now so the buttons dont wig out, this drives the scene system in the draw
+var gameOver = false; // this is for laters, it will run the gameover check system
+
+//this is the start game/unpause level 1 button
 var btn1 = new Button({
     x: 116,
     y: 303,
@@ -305,7 +303,7 @@ var btn1 = new Button({
     }
 });
 
-var MillenniumFalcon = new MillenniumFalcon({x:96,y:275});
+
 
 //this is the level pause button, its in the top right corner
 var btn2 = new Button({
@@ -340,7 +338,7 @@ var btn7 = new Button({
     }
 });
 
-//cutscene 1 button/level 2 pause screen
+
 var btn3 = new Button({
     x: 179,
     y: 228,
@@ -414,6 +412,8 @@ var starY = [random(50,350)];
         starX.push (random(20,380)); 
         starY.push (random(20,380)); 
     }
+    
+    
 // NK 12/16/2022 - use this to actually have the stars be drawn in scene   
 /*
 for (var z = 0 ; z <= 30 ; z++) {
@@ -448,10 +448,10 @@ textSize(15);
 text("Authors:Nick & Jordan",9,377,262,100);
 };
 
-//post level 1 cutscene (work in progress needs proper graphics)
+//post level 1 cutscene 
 var Cut1 = function () {
    background(135, 135, 135);
-   MillenniumFalcon.draw();
+   //MillenniumFalcon.draw();
    stroke(0, 0, 0);
    strokeWeight(4);
    fill(255, 255, 255);
@@ -459,9 +459,11 @@ var Cut1 = function () {
    fill(0, 0, 0);
    noStroke ();
    text("Good work commander but theres more on the way",100,100,160,200);
+   drawNick(106,222,40);
    btn3.draw();
 };
 
+//post level 2 cutscene
 var Cut2 = function () {
    background(99, 99, 99); 
    //MillenniumFalcon(100,219,40);
@@ -472,49 +474,15 @@ var Cut2 = function () {
    fill(0, 0, 0);
    noStroke ();
    text("Your nearly out of it, just a little more",100,100,160,200);
+   noStroke ();
+   strokeWeight(0);
+   drawjordan(92,185,40);
    btn4.draw();
 };
 //
 //end of the static scenes
 //
 
-var Player = function(x, y,nickHeight) {
-    this.x = x;
-    this.y = y;
-    this.nickHeight = nickHeight || 30;
-    //this.img = getImage("creatures/Hopper-Happy");
-    this.asteroids = 0;
-};
-
-Player.prototype.draw = function() {
-    this.y = constrain(this.y, 65, height-50); 
-    this.x = 30;
-    rectMode(CORNER);
-    MillenniumFalcon (this.x , this.y , this.nickHeight);
-   
-    //image(this.img, this.x, this.y, 40, 40);
-};
-
-//this controls up for the player
-Player.prototype.hop = function() {
-    //this.img = getImage("creatures/Hopper-Jumping");
-    this.y -= 4;
-};
-
-//this controls down for the player
-Player.prototype.fall = function() {
-    //this.img = getImage("creatures/Hopper-Happy");
-    this.y += 4;
-};
-
-//asteroid collision detection prototype (ignore that it says sticks)
-Player.prototype.checkForStickGrab = function(stick) {
-    if ((stick.x >= this.x && stick.x <= (this.x + 40)) &&
-        (stick.y >= this.y && stick.y <= (this.y + 40))) {
-        stick.y = -400;
-        this.asteroids--;
-    }
-};
 
 
 //asteroid constructor
@@ -537,14 +505,15 @@ Asteroid.prototype.draw = function() {
     
 };
 
+/*
 //making a player object with constructor
 var player = new Player(196, 301);
-
+*/
 
 //variable to change asteroid count for difficulty and level length
-var asteroidNumber = 50;
+var asteroidNumber = 45;
 // NK 12/16/2022 - added a density option to change the spawn interval between each asteroid
-var asteroidDensity = 60;
+var asteroidDensity = 100;
 
 //this assigns the asteroid(enemy) array its values, this makes the randomness for the draw function
 var Asteroids = [];
@@ -564,7 +533,7 @@ for (var i = 0; i <= asteroidNumber; i++) {
 }
 
 
-var speedMultiplier = 1.5;
+var speedMultiplier = 1.3;
 // NK 12/16/2022 - this multiplies the levels speed, so it multiplies the assigned scene number to determine the enemy speed, so this is the speed scale for the whole game
 
 
@@ -575,7 +544,7 @@ var Level = function (levelNumber) {
 
 
     
-    // static
+    // static background components
     background(0, 0, 0);
     for (var z = 0 ; z <= 30 ; z++) {
         drawStars(starX[z],starY[z],15,15);
@@ -638,7 +607,7 @@ var Level = function (levelNumber) {
         }
         else{
             
-        MillenniumFalcon.y -= 4;
+        MillenniumFalcon.y -= 3;
         }
     } 
     else 
@@ -648,7 +617,7 @@ var Level = function (levelNumber) {
             MillenniumFalcon.y +=0;
         }else 
         {
-            MillenniumFalcon.y +=4;
+            MillenniumFalcon.y +=3;
         }
     }
     MillenniumFalcon.draw();
@@ -662,7 +631,7 @@ draw = function() {
     
     
 //diagnostic for scene change, comment out whe  not in use
-//scene = 2;
+//scene = 1;
 //yeehaw
     
     
@@ -683,6 +652,8 @@ draw = function() {
       }
       if (scene===2.5)
       {
+          noStroke ();
+          strokeWeight(0);
           Cut2();
       }
       if (scene===3 && MillenniumFalcon.asteroids > -9){
@@ -692,7 +663,7 @@ draw = function() {
       }
       if (scene===3.5)
       {
-            background(25, 180, 232);
+            background(168, 168, 168);
             textSize(30);
             text("Congragulations You Win!",86,90,278,111);
             textSize(15);
@@ -701,7 +672,7 @@ draw = function() {
       }
       if (scene===-1)
       {
-            background(25, 180, 232);
+            background(161, 161, 161);
             textSize(30);
             text("Better Luck Next Time!",86,90,278,111);
             textSize(15);
